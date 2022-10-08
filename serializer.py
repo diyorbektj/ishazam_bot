@@ -5,7 +5,6 @@ class Track:
     def __init__(self, music):
         self.music = music
         try:
-            print(self.music)
             self.track = self.music['track']
             self.title = self.track['title']
             self.subtitle = self.track['subtitle']
