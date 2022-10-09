@@ -4,24 +4,15 @@ from misc import *
 from exceptions import NotFoundTrack
 from serializer import Track
 from pytube import Search, YouTube
-from pydub import AudioSegment
 import random
 
 
 def mp3_download(title, subtitle):
     s = Search(f"{title} - {subtitle}")
-
     keys = s.results[0].__dict__
-    print(keys['watch_url'])
     yt = YouTube(keys['watch_url'])
-
-    stream = yt.streams.get_by_itag(18)
     rand = random.randint(10, 9999999999)
-    print(rand)
-    stream.download(filename=f"{rand}.mp4")
-    song = AudioSegment.from_file(str(rand) + ".mp4", "mp4")
-    song.export(str(rand) + ".mp3", format="mp3")
-    os.remove(str(rand) + ".mp4")
+    yt.streams.filter(abr="160kbps", progressive=False).first().download(filename=f"{rand}.mp3")
     return str(rand) + ".mp3"
 
 
